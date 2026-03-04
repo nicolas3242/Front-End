@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio - Nícolas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Olá, eu sou Nícolas </h1>
+
+    <p>
+        Estudante do 3º ano do Ensino Médio com técnico em Desenvolvimento de Sistemas.
+        Estou focado em evoluir constantemente na programação e desenvolver projetos
+        cada vez mais completos e profissionais.
+    </p>
+
+    <h2>💻 Habilidades</h2>
+
+    <p>
+         HTML <br>
+         CSS <br>
+         Lógica de Programação <br>
+         Algoritmos <br>
+         Noções de Banco de Dados
+    </p>
+
+    <h2> Projetos</h2>
+
+    <p>
+        Durante o curso técnico desenvolvi projetos voltados para desenvolvimento web.
+        Clique abaixo para visualizar:
+    </p>
+
+    <!-- Botões -->
+    <a href="projetos.html">Ver Projetos Acadêmicos</a>
+    <a href="https://github.com/nicolas3242" target="_blank">Meu GitHub</a> 
+
+    <p><small>Pressione a tecla <b>C</b> para ligar/desligar o som 🎧</small></p>
+
+</div>
+
+<footer>
+    © 2026 - Nícolas
+</footer>
+
+<!-- AUDIO INVISÍVEL -->
+<audio id="bgMusic" loop>
+    <source src="audio/som_de_ fundo.mp3" type="audio/mp3">
+</audio>
+
+<script>
+    const music = document.getElementById("bgMusic");
+    let tocando = false;
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key.toLowerCase() === "c") {
+            if (!tocando) {
+                music.play();
+                tocando = true;
+            } else {
+                music.pause();
+                tocando = false;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
