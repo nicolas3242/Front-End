@@ -1,0 +1,42 @@
+# =====================================================================
+# DevFox — arquivos que NÃO entram no repositório
+# =====================================================================
+
+# Credenciais do banco. NUNCA versionar.
+# O modelo versionado é config/conexao.exemplo.php — quem clonar o projeto
+# copia ele para config/conexao.php e preenche com os dados da própria máquina.
+config/conexao.php
+
+# Dependências dos testes. São centenas de MB e se reinstalam com `npm install`.
+node_modules/
+testes/node_modules/
+
+# Despejo intermediário do validador de conteúdo (é gerado, não se versiona)
+tools/dados.json
+
+# Backups e exportações locais do banco
+*.sql.bak
+backup_*.sql
+dump_*.sql
+
+# Arquivos de sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs
+*.log
+
+# Saídas temporárias dos testes
+testes/screenshots/
+testes/*.png
+
+# E-mails gravados em desenvolvimento (EMAIL_MODO = 'log'): contêm links de
+# redefinição de senha. Nunca versionar.
+logs/*.log

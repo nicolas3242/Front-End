@@ -1,0 +1,24 @@
+# =====================================================================
+# DevFox — normalização de quebra de linha
+# =====================================================================
+# Sem este arquivo, o mesmo código editado no Windows e em outra máquina
+# aparece como "arquivo inteiro modificado" no diff, por causa do CRLF.
+# Com ele, o repositório guarda tudo em LF e cada máquina usa o formato
+# que ela prefere ao gravar em disco.
+
+# Detecta texto automaticamente e normaliza para LF no repositório.
+* text=auto
+
+# Arquivos que precisam de um formato específico para funcionar.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh  text eol=lf
+
+# Binários: nunca mexer no conteúdo.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.docx binary

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Feneco do deserto">
+<defs><linearGradient id="f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a3a17"/><stop offset="1" stop-color="#26180a"/></linearGradient></defs>
+<rect width="128" height="128" fill="url(#f)"/>
+<path d="M22 64 L14 6 L54 40 Z" fill="#e9c48f"/><path d="M106 64 L114 6 L74 40 Z" fill="#e9c48f"/>
+<path d="M26 54 L21 18 L46 40 Z" fill="#f4b8a0"/><path d="M102 54 L107 18 L82 40 Z" fill="#f4b8a0"/>
+<path d="M22 58 Q24 38 64 36 Q104 38 106 58 L106 66 Q100 88 64 112 Q28 88 22 66 Z" fill="#e9c48f"/>
+<path d="M64 36 Q84 38 96 50 Q86 60 70 62 L64 64 Z" fill="#b8894f" opacity=".35"/>
+<path d="M22 64 Q40 70 56 84 Q60 98 64 112 Q30 90 22 66 Z" fill="#fff8ec"/>
+<path d="M106 64 Q88 70 72 84 Q68 98 64 112 Q98 90 106 66 Z" fill="#fff8ec"/>
+<path d="M56 86 Q64 80 72 86 L66 100 Q64 104 62 100 Z" fill="#fff8ec"/>
+<ellipse cx="48" cy="72" rx="5" ry="6" fill="#1a1204"/><ellipse cx="80" cy="72" rx="5" ry="6" fill="#1a1204"/><circle cx="49.5" cy="70" r="1.8" fill="#fff"/><circle cx="81.5" cy="70" r="1.8" fill="#fff"/>
+<path d="M58 97 Q64 93 70 97 Q68 103 64 104 Q60 103 58 97 Z" fill="#1a1204"/>
+
+</svg>

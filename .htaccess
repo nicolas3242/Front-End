@@ -1,0 +1,24 @@
+# =====================================================================
+# DevFox — regras de acesso do Apache (raiz do projeto)
+# =====================================================================
+# O projeto inteiro fica dentro do htdocs, então TUDO aqui pode ser pedido
+# pelo navegador. Sem estas regras, http://.../DevFox/database/banco.sql
+# entregava o gabarito de todas as atividades (inclusive dos casos de teste
+# ocultos) e o README mostrava a senha do admin.
+#
+# Regra geral: o navegador só precisa das páginas .php e de assets/.
+# Arquivos de desenvolvimento (SQL, Markdown, Python, planilhas, scripts
+# .bat, logs) nunca são servidos.
+
+# Sem listagem de pasta: abrir /DevFox/assets/ não mostra os arquivos.
+Options -Indexes
+
+<FilesMatch "\.(sql|md|py|bat|sh|log|xlsx|xls|csv|neon|lock|ini|bak)$">
+    Require all denied
+</FilesMatch>
+
+# Arquivos ocultos (.gitignore, .gitattributes, .env...) e a pasta .git.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+RedirectMatch 404 /\.git(/|$)

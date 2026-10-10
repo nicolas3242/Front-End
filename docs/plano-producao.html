@@ -1,0 +1,395 @@
+<title>Plano de Produção DevFox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#0f1117;
+    --card:#181c27;
+    --card-hover:#212738;
+    --orange:#ff6b00;
+    --orange-soft:rgba(255,107,0,.14);
+    --text:#ffffff;
+    --muted:#8a93a6;
+    --border:#272f45;
+    --success:#00d26a;
+    --success-soft:rgba(0,210,106,.13);
+    --danger:#f8312f;
+    --danger-soft:rgba(248,49,47,.13);
+    --warn:#ffb020;
+    --warn-soft:rgba(255,176,32,.14);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Poppins','Segoe UI',sans-serif;
+    margin:0;
+    padding:48px 24px 96px;
+    line-height:1.55;
+  }
+  h1,h2,h3{text-wrap:balance; margin:0;}
+  code, .mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+  ::selection{background:var(--orange); color:#1a1204;}
+
+  .wrap{max-width:980px; margin:0 auto;}
+
+  /* header */
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--orange); margin-bottom:14px;
+  }
+  .eyebrow::before{content:"🦊"; font-size:.95rem;}
+  h1{font-size:clamp(1.9rem,4vw,2.6rem); font-weight:800; letter-spacing:-.01em;}
+  .subtitle{color:var(--muted); font-size:1.02rem; margin-top:10px; max-width:640px;}
+
+  .meta-row{
+    display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;
+  }
+  .meta-pill{
+    background:var(--card); border:1px solid var(--border); border-radius:999px;
+    padding:8px 16px; font-size:.82rem; color:var(--muted); display:flex; gap:8px; align-items:baseline;
+  }
+  .meta-pill b{color:var(--text); font-weight:600; font-variant-numeric:tabular-nums;}
+
+  /* alert */
+  .alert{
+    margin-top:36px; background:var(--success-soft); border:1px solid rgba(0,210,106,.4);
+    border-radius:14px; padding:22px 24px;
+  }
+  .alert h2{font-size:1.05rem; color:var(--success); display:flex; gap:10px; align-items:center;}
+  .alert p{color:var(--muted); font-size:.92rem; margin:8px 0 16px;}
+  .bug-list{display:grid; gap:10px;}
+  .bug{
+    display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+    background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:12px 14px;
+  }
+  .bug .tag{
+    font-size:.68rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    background:var(--success-soft); color:var(--success); border-radius:6px; padding:3px 8px; white-space:nowrap;
+  }
+  .bug .file{color:var(--orange); font-size:.82rem;}
+  .bug .desc{color:var(--text); font-size:.87rem; margin-top:3px;}
+
+  /* section titles */
+  .section-head{margin:56px 0 22px;}
+  .section-num{
+    font-family:'JetBrains Mono',monospace; color:var(--orange); font-size:.8rem; font-weight:500;
+  }
+  .section-head h2{font-size:1.4rem; margin-top:6px;}
+  .section-head p{color:var(--muted); font-size:.9rem; margin-top:6px; max-width:620px;}
+
+  /* phase cards */
+  .phase{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:24px 26px; margin-bottom:16px;
+  }
+  .phase-top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;
+  }
+  .phase-title{display:flex; align-items:center; gap:12px;}
+  .phase-index{
+    width:34px; height:34px; border-radius:10px; background:var(--orange-soft); color:var(--orange);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.9rem; flex-shrink:0;
+  }
+  .phase-title h3{font-size:1.08rem; font-weight:600;}
+  .phase-when{
+    font-size:.78rem; color:var(--muted); font-variant-numeric:tabular-nums;
+    background:var(--bg); border:1px solid var(--border); padding:5px 12px; border-radius:999px;
+  }
+  .phase-goal{color:var(--muted); font-size:.88rem; margin:12px 0 16px; max-width:680px;}
+
+  .tasks{display:grid; gap:9px;}
+  .task{
+    display:grid; grid-template-columns:20px 1fr auto; gap:12px; align-items:start;
+    padding:9px 10px; border-radius:8px; transition:background .15s;
+  }
+  .task:hover{background:var(--card-hover);}
+  .task input[type=checkbox]{
+    appearance:none; width:18px; height:18px; margin-top:1px; border-radius:5px;
+    border:1.5px solid var(--border); background:var(--bg); cursor:pointer; position:relative; flex-shrink:0;
+  }
+  .task input[type=checkbox]:checked{background:var(--success); border-color:var(--success);}
+  .task input[type=checkbox]:checked::after{
+    content:""; position:absolute; left:5px; top:1px; width:5px; height:9px;
+    border:solid #06170f; border-width:0 2px 2px 0; transform:rotate(45deg);
+  }
+  .task label{font-size:.9rem; color:var(--text); cursor:pointer;}
+  .task.done label{color:var(--muted); text-decoration:line-through;}
+  .owner{
+    font-size:.68rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase;
+    padding:3px 9px; border-radius:6px; white-space:nowrap; height:fit-content;
+  }
+  .owner.back{background:rgba(255,107,0,.16); color:var(--orange);}
+  .owner.front{background:rgba(120,150,255,.16); color:#9db3ff;}
+  .owner.content{background:var(--success-soft); color:var(--success);}
+  .owner.all{background:var(--card-hover); color:var(--muted);}
+
+  .risk-note{
+    margin-top:16px; padding:12px 14px; background:var(--warn-soft); border:1px solid rgba(255,176,32,.35);
+    border-radius:10px; font-size:.83rem; color:#ffcf7a; display:flex; gap:10px;
+  }
+  .risk-note::before{content:"⚠"; flex-shrink:0;}
+
+  /* legend */
+  .legend{display:flex; gap:18px; flex-wrap:wrap; margin:18px 0 0; font-size:.78rem; color:var(--muted);}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .dot{width:9px; height:9px; border-radius:3px;}
+
+  /* open decisions */
+  .decisions{display:grid; gap:12px; grid-template-columns:1fr 1fr;}
+  @media (max-width:720px){.decisions{grid-template-columns:1fr;}}
+  .decision{
+    background:var(--card); border:1px dashed var(--border); border-radius:12px; padding:16px 18px;
+  }
+  .decision h4{font-size:.88rem; font-weight:600; color:var(--text);}
+  .decision p{font-size:.82rem; color:var(--muted); margin-top:6px;}
+
+  footer{margin-top:64px; padding-top:24px; border-top:1px solid var(--border); color:var(--muted); font-size:.8rem;}
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+
+<div class="wrap">
+
+  <div class="eyebrow">Plano de Produção</div>
+  <h1>DevFox — do protótipo à banca</h1>
+  <p class="subtitle">Roteiro para sair do estado atual (protótipo PHP + MySQL com bugs conhecidos) até um MVP funcional apresentável, sem perder o fio no meio do caminho.</p>
+
+  <div class="meta-row">
+    <div class="meta-pill">Janela <b>&lt; 8 semanas</b></div>
+    <div class="meta-pill">Início <b>01/09/2026</b></div>
+    <div class="meta-pill">Stack <b>PHP + MySQL</b></div>
+    <div class="meta-pill">Equipe <b>Murilo + 1–2 colegas</b></div>
+  </div>
+
+  <div class="alert alert-resolvido">
+    <h2>✅ Fase 0 concluída em 29/08/2026 — o app volta a rodar ponta a ponta.</h2>
+    <p>Os bugs abaixo foram encontrados na revisão e <strong>já estão corrigidos</strong>. Ficam registrados porque explicam o que mudou e por quê.</p>
+    <div class="bug-list">
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">desafio.php · perfil.php · painel_professor.php · api/processar_desafio.php</div>
+          <div class="desc">Chamam <code>usuarioLogado()</code>, uma função que não existe em nenhum arquivo do projeto → erro fatal do PHP nessas páginas.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">painel_professor.php</div>
+          <div class="desc">Chama <code>exibeMensagem()</code>, também inexistente → mesma quebra.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">cadastro.php</div>
+          <div class="desc">Qualquer visitante pode se cadastrar como "professor" escolhendo no <code>&lt;select&gt;</code>, sem verificação nenhuma — acesso livre ao painel de gestão.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">trilhas.php → atividade.php vs. desafio.php</div>
+          <div class="desc">Dois fluxos de exercício que não se conversam: a navegação normal leva a uma pergunta fixa no código-fonte; o fluxo ligado ao banco (<code>desafio.php</code>) fica inacessível.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">api/processar_desafio.php</div>
+          <div class="desc">Correção via <code>strpos()</code> — checa se a string esperada aparece em qualquer lugar da resposta, não executa nem valida o código de verdade.</div>
+        </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">logout.php</div>
+          <div class="desc">Encerrava a sessão sem nunca tê-la iniciado — <strong>o logout não funcionava</strong>: o usuário continuava logado.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">desafio.php → assets/js/</div>
+          <div class="desc">Carregava <code>desafio.js</code> (singular), mas o arquivo se chama <code>desafios.js</code>. O script nunca era carregado.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">atividade.php</div>
+          <div class="desc">Um SEGUNDO farm de XP, ainda mais direto: somava XP sem controle nenhum de repetição.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">assets/css/styles.css</div>
+          <div class="desc">Faltavam as classes que várias telas usavam (<code>.desafio-container</code>, <code>.code-editor</code>, <code>.stat-card</code>) — elas renderizavam sem estilo. E não havia <strong>nenhuma media query</strong>: no celular a sidebar cobria o conteúdo.</div>
+        </div>
+      </div>
+      <div class="bug">
+        <span class="tag">Corrigido</span>
+        <div>
+          <div class="file mono">database/*.sql</div>
+          <div class="desc">Não declaravam charset: importados por um cliente em latin1, gravavam os acentos duplamente codificados ("LÃ³gica") sem acusar erro.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div class="section-num">01 — 06</div>
+    <h2>Fases de produção</h2>
+    <p>Cada fase parte do que a anterior deixou pronto. As caixas marcam o que falta — os dados ficam só neste navegador, então cada pessoa do time marca a própria cópia.</p>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--orange)"></span> Backend / PHP / Banco</span>
+      <span><span class="dot" style="background:#9db3ff"></span> Front / Conteúdo visual</span>
+      <span><span class="dot" style="background:var(--success)"></span> Conteúdo pedagógico</span>
+      <span><span class="dot" style="background:var(--muted)"></span> Time todo</span>
+    </div>
+  </div>
+
+  <div class="phase" data-phase="0">
+    <div class="phase-top">
+      <div class="phase-title"><div class="phase-index">0</div><h3>Estabilizar o que já existe</h3></div>
+      <div class="phase-when">Semana 1</div>
+    </div>
+    <p class="phase-goal">Sair do estado "quebra com erro fatal" para um app que roda ponta a ponta, mesmo que feio.</p>
+    <div class="tasks">
+      <div class="task"><input type="checkbox" id="t0-1" checked><label for="t0-1">Definir <code class="mono">usuarioLogado()</code> num arquivo central (ex: <code class="mono">includes/auth.php</code>) e trocar todas as chamadas soltas por ele</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t0-2" checked><label for="t0-2">Definir <code class="mono">exibeMensagem()</code> ou remover a chamada e usar o padrão de alerta já usado em login/cadastro</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t0-3" checked><label for="t0-3">Escolher um único fluxo de exercício (recomendado: <code class="mono">desafio.php</code>, que já usa o banco) e aposentar o outro</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t0-4" checked><label for="t0-4">Corrigir o link em <code class="mono">trilhas.php</code> para apontar para o fluxo escolhido, com IDs reais do banco</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t0-5" checked><label for="t0-5">Remover a opção "professor" do cadastro público; criar contas de professor manualmente no banco por enquanto</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t0-6"><label for="t0-6">Todo mundo com XAMPP + o banco rodando local e conseguindo logar</label><span class="owner all">Time todo</span></div>
+    </div>
+    <div class="risk-note">Concluída e testada. <strong>Mas o projeto ainda não tem repositório Git</strong> — todo o trabalho está só na pasta local, sem histórico nem backup. Criar o repositório é a próxima tarefa mais urgente.</div>
+  </div>
+
+  <div class="phase" data-phase="1">
+    <div class="phase-top">
+      <div class="phase-title"><div class="phase-index">1</div><h3>Correção de exercício de verdade</h3></div>
+      <div class="phase-when">Semana 2</div>
+    </div>
+    <p class="phase-goal">Trocar o "contém a string esperada" por uma comparação real de resultado — sem precisar rodar código no servidor.</p>
+    <div class="tasks">
+      <div class="task"><input type="checkbox" id="t1-1"><label for="t1-1">Para exercícios de "completar código": comparar o valor normalizado (trim, ignorar espaços) contra o esperado, não substring</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t1-2"><label for="t1-2">Para exercícios de "código livre": rodar o JS do aluno no navegador (Web Worker) contra casos de teste, e mandar só o resultado (passou/não passou) pro <code class="mono">processar_desafio.php</code></label><span class="owner front">Front</span></div>
+      <div class="task"><input type="checkbox" id="t1-3" checked><label for="t1-3">Padronizar o schema de <code class="mono">atividades</code> para guardar casos de teste (entrada → saída esperada), não só uma string única</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t1-4"><label for="t1-4">Testar com pelo menos 3 respostas erradas "espertas" (string colada, comentário, etc.) pra garantir que não passam mais</label><span class="owner all">Time todo</span></div>
+      <div class="task"><input type="checkbox" id="t1-5"><label for="t1-5">Trocar o <code class="mono">&lt;textarea&gt;</code> simples por um editor de código real (CodeMirror via CDN) com numeração de linha e destaque de sintaxe, como no mockup — decisão de 29/08/2026, entra no MVP</label><span class="owner front">Front</span></div>
+    </div>
+  </div>
+
+  <div class="phase" data-phase="2">
+    <div class="phase-top">
+      <div class="phase-title"><div class="phase-index">2</div><h3>Trilhas e progresso reais</h3></div>
+      <div class="phase-when">Semanas 3–4</div>
+    </div>
+    <p class="phase-goal">Tirar os cards de exemplo fixos no código e mostrar progresso de verdade.</p>
+    <div class="tasks">
+      <div class="task"><input type="checkbox" id="t2-1" checked><label for="t2-1">Remover os cards hardcoded de <code class="mono">trilhas.php</code> (fallback "Lógica de Programação" / "HTML5 & CSS3") — só dados do banco</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t2-2"><label for="t2-2">Calcular % de progresso real por trilha a partir de <code class="mono">submissoes_alunos</code>, em vez do <code>width: 0%</code> fixo</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t2-3"><label for="t2-3">Unificar cálculo de nível (usar sempre <code class="mono">floor(xp/500)+1</code>, ou remover a coluna <code class="mono">nivel</code> morta e manter só o cálculo)</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t2-4" checked><label for="t2-4">Atualizar <code class="mono">sequencia_dias</code> (ofensiva) de verdade ao logar em dias consecutivos, hoje é só um número parado</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t2-5"><label for="t2-5">Adicionar "Loja" na sidebar como item inativo/"em breve" (sem tela funcional atrás) — decisão de 29/08/2026: mantém a promessa visual do produto completo sem implementar a função ainda</label><span class="owner front">Front</span></div>
+    </div>
+  </div>
+
+  <div class="phase" data-phase="3">
+    <div class="phase-top">
+      <div class="phase-title"><div class="phase-index">3</div><h3>Conteúdo pedagógico</h3></div>
+      <div class="phase-when">Semanas 4–6</div>
+    </div>
+    <p class="phase-goal">1 trilha completa, bem feita, mais 1–2 parciais para mostrar a estrutura na banca.</p>
+    <div class="tasks">
+      <div class="task"><input type="checkbox" id="t3-1"><label for="t3-1">Gerar rascunho de aulas e desafios com apoio de IA para a trilha "Lógica de Programação"</label><span class="owner content">Conteúdo</span></div>
+      <div class="task"><input type="checkbox" id="t3-2"><label for="t3-2">Revisão humana obrigatória de cada exercício e gabarito gerado antes de subir pro banco — checar se o gabarito realmente está certo</label><span class="owner content">Conteúdo</span></div>
+      <div class="task"><input type="checkbox" id="t3-3"><label for="t3-3">Cadastrar o conteúdo revisado via <code class="mono">painel_professor.php</code> (depois de corrigido o acesso restrito) ou direto no banco</label><span class="owner content">Conteúdo</span></div>
+      <div class="task"><input type="checkbox" id="t3-4"><label for="t3-4">Esboçar estrutura (só títulos e ordem) de mais 1–2 trilhas, sem precisar de todo o conteúdo pronto</label><span class="owner content">Conteúdo</span></div>
+    </div>
+  </div>
+
+  <div class="phase" data-phase="4">
+    <div class="phase-top">
+      <div class="phase-title"><div class="phase-index">4</div><h3>Segurança e polimento</h3></div>
+      <div class="phase-when">Semana 6–7</div>
+    </div>
+    <p class="phase-goal">Fechar os buracos que uma banca técnica consegue achar em cinco minutos.</p>
+    <div class="tasks">
+      <div class="task"><input type="checkbox" id="t4-1"><label for="t4-1">Conferir que toda query com dado do usuário usa prepared statement (a maioria já usa — validar as últimas)</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t4-2"><label for="t4-2">Conferir <code class="mono">htmlspecialchars()</code> em todo output que vem do banco ou do usuário, sem exceção</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t4-3"><label for="t4-3">Adicionar controle real de papel de professor (não só checar sessão — ex: só um admin promove um usuário)</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t4-4"><label for="t4-4">Testar responsividade em mobile/tablet nas telas principais</label><span class="owner front">Front</span></div>
+      <div class="task"><input type="checkbox" id="t4-5"><label for="t4-5">Passar o CSS e as telas a limpo visualmente onde ficou improvisado</label><span class="owner front">Front</span></div>
+    </div>
+  </div>
+
+  <div class="phase" data-phase="5">
+    <div class="phase-top">
+      <div class="phase-title"><div class="phase-index">5</div><h3>Deploy e banca</h3></div>
+      <div class="phase-when">Semana 8</div>
+    </div>
+    <p class="phase-goal">Sair do XAMPP local para algo acessível, com folga pra imprevisto.</p>
+    <div class="tasks">
+      <div class="task"><input type="checkbox" id="t5-1"><label for="t5-1">Escolher hospedagem com PHP + MySQL (ver decisões em aberto abaixo)</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t5-2"><label for="t5-2">Tirar credenciais reais de <code class="mono">config/conexao.php</code> do controle de versão (variável de ambiente ou arquivo ignorado no Git)</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t5-3"><label for="t5-3">Migrar <code class="mono">database/banco.sql</code> para o banco de produção e testar login/cadastro lá</label><span class="owner back">Backend</span></div>
+      <div class="task"><input type="checkbox" id="t5-4"><label for="t5-4">Ensaiar a apresentação usando o ambiente publicado, não o localhost</label><span class="owner all">Time todo</span></div>
+      <div class="task"><input type="checkbox" id="t5-5"><label for="t5-5">Deixar 3–4 dias de folga antes da banca sem tarefa nova planejada</label><span class="owner all">Time todo</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div class="section-num">Em aberto</div>
+    <h2>Decisões que ainda faltam</h2>
+    <p>Não travam o trabalho técnico, mas precisam ser fechadas antes das fases que dependem delas.</p>
+  </div>
+
+  <div class="decisions">
+    <div class="decision">
+      <h4>Data exata da banca</h4>
+      <p>O cronograma acima assume ~8 semanas a partir de 01/09/2026. Ajustar as semanas assim que a data for confirmada.</p>
+    </div>
+    <div class="decision">
+      <h4>Onde hospedar em produção</h4>
+      <p>Precisa de PHP + MySQL. Opções a comparar: hospedagem compartilhada tradicional (Hostinger, etc.) ou algo como Railway/Render com suporte a PHP.</p>
+    </div>
+    <div class="decision">
+      <h4>Confirmar com o orientador</h4>
+      <p>Se um backend PHP autoral (em vez do Supabase cogitado antes) é o que a banca espera ver — isso reforça a decisão de manter PHP.</p>
+    </div>
+    <div class="decision">
+      <h4>Divisão de papéis fixa</h4>
+      <p>As tags Backend/Front/Conteúdo abaixo são sugestão de trilha de trabalho, não atribuição de pessoa — o time decide quem cuida de quê.</p>
+    </div>
+  </div>
+
+  <footer>
+    Plano vivo — atualize aqui conforme o time avança. Detalhe técnico completo mora em <code class="mono">AGENTS.md</code> e <code class="mono">AI_HANDOFF.md</code> do repositório.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  try{
+    var boxes = document.querySelectorAll('.task input[type=checkbox]');
+    var KEY = 'devfox-plano-progresso';
+    var saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ saved = {}; }
+
+    boxes.forEach(function(box){
+      if (saved[box.id]) { box.checked = true; box.closest('.task').classList.add('done'); }
+      box.addEventListener('change', function(){
+        box.closest('.task').classList.toggle('done', box.checked);
+        saved[box.id] = box.checked;
+        try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){}
+      });
+    });
+  }catch(e){ /* localStorage indisponível — a página continua funcionando sem persistir estado */ }
+})();
+</script>

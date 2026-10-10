@@ -1,0 +1,2 @@
+# Pasta dos e-mails gravados em modo de desenvolvimento (EMAIL_MODO = log).
+# O .htaccess bloqueia o acesso pelo navegador: os links de senha ficam aqui.
